@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://whatwhen.uk/sitemap.xml

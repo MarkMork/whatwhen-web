@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO -->
+  <title>WhatWhen – Track When You Last Did Anything</title>
+  <meta name="description" content="WhatWhen is a minimalist self-hosted web app for tracking recurring tasks. Each task is a button with a live timer counting up since it was last reset. No database, no auth — a single Go binary.">
+  <link rel="canonical" href="https://whatwhen.uk">
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://whatwhen.uk">
+  <meta property="og:title"       content="WhatWhen – Track When You Last Did Anything">
+  <meta property="og:description" content="A minimalist self-hosted app that turns recurring tasks into smart buttons — each one a live timer. No database, no auth, no build step.">
+  <meta property="og:image"       content="https://whatwhen.uk/assets/og-image.png">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="WhatWhen – Track When You Last Did Anything">
+  <meta name="twitter:description" content="A minimalist self-hosted app that turns recurring tasks into smart buttons — each one a live timer.">
+  <meta name="twitter:image"       content="https://whatwhen.uk/assets/og-image.png">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "WhatWhen",
+    "description": "A minimalist self-hosted web app for tracking when you last did a recurring task. Each task is a button with a live timer counting up since it was last reset.",
+    "url": "https://whatwhen.uk",
+    "sameAs": "https://github.com/markmork/whatwhen",
+    "operatingSystem": "Linux, macOS, Windows",
+    "applicationCategory": "UtilitiesApplication",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "license": "https://opensource.org/licenses/MIT"
+  }
+  </script>
+
+  <!-- Apply saved theme before first paint — prevents flash -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('whatwhen-theme');
+      var dark = t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    })();
+  </script>
+
+  <!-- Inline SVG favicon — no image file needed -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏱</text></svg>">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ── Navigation ──────────────────────────────────────────────────────── -->
+  <header class="site-header">
+    <nav class="nav container" aria-label="Site navigation">
+      <a href="/" class="nav-logo" aria-label="WhatWhen home">WhatWhen</a>
+      <div class="nav-right">
+        <a href="https://github.com/markmork/whatwhen" class="nav-link" target="_blank" rel="noopener noreferrer" aria-label="WhatWhen on GitHub">
+          <!-- GitHub mark -->
+          <svg viewBox="0 0 98 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z"/></svg>
+          <span>GitHub</span>
+        </a>
+        <button id="theme-toggle" class="theme-btn" aria-label="Toggle colour scheme" title="Toggle colour scheme">
+          <!-- Sun — shown in dark mode to switch to light -->
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <!-- Moon — shown in light mode to switch to dark -->
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ── Hero ──────────────────────────────────────────────────────────── -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <h1>Track when you last<br>did anything.</h1>
+        <p class="hero-sub">
+          A minimalist self-hosted app that turns recurring tasks into smart buttons
+          — each one a live timer counting up from its last reset.
+          No database. No auth. No complexity.
+        </p>
+        <div class="hero-cta">
+          <a href="https://github.com/markmork/whatwhen" class="btn btn-primary" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+          <a href="#getting-started" class="btn btn-ghost">Get running →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Features ──────────────────────────────────────────────────────── -->
+    <section class="features section" id="features" aria-label="Features">
+      <div class="container">
+        <div class="feature-grid">
+
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <!-- File icon -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <h2>No database</h2>
+            <p>Stores everything in a flat JSON file. Mount <code>/data</code> as a volume and data persists across container restarts automatically.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <!-- Unlock icon -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+            </div>
+            <h2>No auth required</h2>
+            <p>Designed to run locally or behind a reverse proxy. Lock it down at the network layer — WhatWhen stays simple and stays out of the way.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <!-- Terminal icon -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            </div>
+            <h2>Single Go binary</h2>
+            <p>Built on the Go standard library — zero third-party modules. Statically compiled, runs in a <code>scratch</code> Docker image, up in one command.</p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Screenshots ────────────────────────────────────────────────────── -->
+    <section class="section" id="screenshots" aria-label="Screenshots">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Clean by design</h2>
+          <p class="section-sub">Light and dark themes — set by your OS preference or toggled manually.</p>
+        </div>
+        <div class="screenshot-grid">
+          <!--
+            Drop your screenshots into assets/ and update the src attributes:
+              assets/screenshot-light.png  — recommended size: 1200×750
+              assets/screenshot-dark.png   — recommended size: 1200×750
+          -->
+          <figure class="screenshot">
+            <img src="assets/screenshot-light.png"
+                 alt="WhatWhen in light mode — a grid of task buttons each showing a timer counting up from the last reset"
+                 width="1200" height="750" loading="lazy">
+            <figcaption>Light mode</figcaption>
+          </figure>
+          <figure class="screenshot">
+            <img src="assets/screenshot-dark.png"
+                 alt="WhatWhen in dark mode — the same task grid with a dark background and lighter text"
+                 width="1200" height="750" loading="lazy">
+            <figcaption>Dark mode</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Getting Started ────────────────────────────────────────────────── -->
+    <section class="getting-started section" id="getting-started" aria-label="Getting started">
+      <div class="container">
+        <div class="section-header" style="text-align:left">
+          <h2 class="section-title">Get running in seconds</h2>
+          <p class="section-sub">Docker is the fastest path. No build step, no dependencies.</p>
+        </div>
+
+        <div class="steps">
+
+          <div class="step">
+            <span class="step-num" aria-hidden="true">1</span>
+            <div class="step-body">
+              <h3>Create a <code>compose.yaml</code></h3>
+              <div class="code-block">
+                <button class="copy-btn" aria-label="Copy compose.yaml to clipboard" data-code="code-compose">Copy</button>
+                <pre><code id="code-compose">services:
+  whatwhen:
+    image: ghcr.io/markmork/whatwhen:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/data
+    restart: unless-stopped</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <span class="step-num" aria-hidden="true">2</span>
+            <div class="step-body">
+              <h3>Start it</h3>
+              <div class="code-block">
+                <button class="copy-btn" aria-label="Copy docker compose command to clipboard" data-code="code-up">Copy</button>
+                <pre><code id="code-up">docker compose up -d</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <span class="step-num" aria-hidden="true">3</span>
+            <div class="step-body">
+              <h3>Open it</h3>
+              <p>Visit <a href="http://localhost:8080">http://localhost:8080</a> and add your first task.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <details class="alt-install">
+          <summary>Run from source (requires Go 1.22+)</summary>
+          <div class="code-block">
+            <button class="copy-btn" aria-label="Copy source install commands to clipboard" data-code="code-source">Copy</button>
+            <pre><code id="code-source">git clone https://github.com/markmork/whatwhen
+cd whatwhen
+DATA_FILE=./whatwhen.json go run .</code></pre>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ── Architecture ───────────────────────────────────────────────────── -->
+    <section class="architecture section" id="architecture" aria-label="How it's built">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">How it's built</h2>
+          <p class="section-sub">Intentionally boring. The stack is a feature.</p>
+        </div>
+        <dl class="arch-grid">
+
+          <div class="arch-item">
+            <dt>Go standard library only</dt>
+            <dd>No third-party modules. The HTTP router uses Go 1.22's built-in method&nbsp;+&nbsp;path patterns. The binary is CGO-disabled and runs in a <code>scratch</code> image — minimal attack surface, tiny image size.</dd>
+          </div>
+
+          <div class="arch-item">
+            <dt>Timestamps, not timers</dt>
+            <dd>The server only stores a <code>lastReset</code> UTC timestamp. The browser computes elapsed time and ticks once per second. Timers stay accurate across server restarts and closed tabs.</dd>
+          </div>
+
+          <div class="arch-item">
+            <dt>Atomic persistence</dt>
+            <dd>Every write goes to a temp file first, then <code>os.Rename</code> atomically replaces the data file. The JSON file is never half-written — no data loss on crash or power failure.</dd>
+          </div>
+
+          <div class="arch-item">
+            <dt>Vanilla frontend</dt>
+            <dd>HTML, CSS, and JavaScript — no framework, no build step. Embedded directly into the binary with <code>//go:embed</code>. Theme and lock state live in <code>localStorage</code>, not the server.</dd>
+          </div>
+
+        </dl>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Footer ────────────────────────────────────────────────────────────── -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span class="footer-logo">WhatWhen</span>
+      <span class="footer-links">
+        <a href="https://github.com/markmork/whatwhen" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <span class="footer-sep" aria-hidden="true">·</span>
+        <span>MIT licensed</span>
+      </span>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
