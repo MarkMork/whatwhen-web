@@ -57,7 +57,7 @@
   <!-- ── Navigation ──────────────────────────────────────────────────────── -->
   <header class="site-header">
     <nav class="nav container" aria-label="Site navigation">
-      <a href="/" class="nav-logo" aria-label="WhatWhen home">WhatWhen</a>
+      <a href="/" class="nav-logo" aria-label="WhatWhen home">What<span class="accent-text">When</span></a>
       <div class="nav-right">
         <a href="https://github.com/markmork/whatwhen" class="nav-link" target="_blank" rel="noopener noreferrer" aria-label="WhatWhen on GitHub">
           <!-- GitHub mark -->
@@ -176,11 +176,19 @@
                 <pre><code id="code-compose">services:
   whatwhen:
     image: ghcr.io/markmork/whatwhen:latest
+    container_name: whatwhen
+    restart: unless-stopped
     ports:
       - "8080:8080"
+    environment:
+      # Override the listen port or data file location if you like.
+      - PORT=8080
+      - DATA_FILE=/data/whatwhen.json
     volumes:
-      - ./data:/data
-    restart: unless-stopped</code></pre>
+      - whatwhen-data:/data
+
+volumes:
+  whatwhen-data:</code></pre>
               </div>
             </div>
           </div>
@@ -257,7 +265,7 @@ DATA_FILE=./whatwhen.json go run .</code></pre>
   <!-- ── Footer ────────────────────────────────────────────────────────────── -->
   <footer class="site-footer">
     <div class="container footer-inner">
-      <span class="footer-logo">WhatWhen</span>
+      <span class="footer-logo">What<span class="accent-text">When</span></span>
       <span class="footer-links">
         <a href="https://github.com/markmork/whatwhen" target="_blank" rel="noopener noreferrer">GitHub</a>
         <span class="footer-sep" aria-hidden="true">·</span>
