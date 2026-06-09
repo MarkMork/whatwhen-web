@@ -44,6 +44,12 @@ body {
 
 a { color: var(--accent); text-decoration: none; }
 .accent-text { color: var(--accent); }
+
+/* Theme-aware SVG logo fills */
+.logo-slate { fill: #1e293b; }
+.logo-muted  { fill: #64748b; }
+[data-theme="dark"] .logo-slate { fill: #f1f5f9; }
+[data-theme="dark"] .logo-muted  { fill: #94a3b8; }
 a:hover { text-decoration: underline; }
 
 code {
@@ -99,14 +105,12 @@ code {
 }
 
 .nav-logo {
-  font-family: ui-monospace, 'Cascadia Code', Menlo, monospace;
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--text);
-  letter-spacing: -0.02em;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
 }
 
-.nav-logo:hover { text-decoration: none; color: var(--accent); }
+.nav-logo:hover { text-decoration: none; opacity: 0.8; }
 
 .nav-right {
   display: flex;
@@ -190,14 +194,18 @@ code {
 /* ─── Hero ───────────────────────────────────────────────────────────────── */
 .hero { padding: 6rem 0 5rem; }
 
-.hero-inner { max-width: 680px; }
+.hero-inner {
+  max-width: 680px;
+  text-align: center;
+}
 
-.hero h1 {
-  font-size: clamp(2.2rem, 5.5vw, 3.6rem);
-  font-weight: 700;
-  line-height: 1.12;
-  letter-spacing: -0.03em;
-  margin-bottom: 1.25rem;
+.hero-logo-h1 { margin-bottom: 1rem; }
+
+.hero-logo-svg {
+  display: block;
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto;
 }
 
 .hero-sub {
@@ -205,10 +213,10 @@ code {
   color: var(--text-muted);
   line-height: 1.75;
   max-width: 540px;
-  margin-bottom: 2rem;
+  margin: 0 auto 2rem;
 }
 
-.hero-cta { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; }
 
 /* ─── Features ───────────────────────────────────────────────────────────── */
 .features {
@@ -425,10 +433,9 @@ details[open] summary::before { content: '▼  '; }
 }
 
 .footer-logo {
-  font-family: ui-monospace, 'Cascadia Code', Menlo, monospace;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  opacity: 0.7;
 }
 
 .footer-links {

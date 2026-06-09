@@ -47,8 +47,7 @@
     })();
   </script>
 
-  <!-- Inline SVG favicon — no image file needed -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏱</text></svg>">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 
   <link rel="stylesheet" href="style.css">
 </head>
@@ -57,7 +56,18 @@
   <!-- ── Navigation ──────────────────────────────────────────────────────── -->
   <header class="site-header">
     <nav class="nav container" aria-label="Site navigation">
-      <a href="/" class="nav-logo" aria-label="WhatWhen home">What<span class="accent-text">When</span></a>
+      <a href="/" class="nav-logo" aria-label="WhatWhen home">
+        <!-- Compact mark + wordmark: double-W at 24px tall, text alongside -->
+        <svg width="118" height="26" viewBox="0 0 118 26" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <g transform="translate(0,1) scale(0.279)">
+            <path class="logo-slate" d="M0,0 L15,60 L32,20 L49,60 L64,0 L55,0 L49,42 L32,2 L15,42 L9,0 Z"/>
+            <path fill="#4f46e5"    d="M0,26 L15,86 L32,46 L49,86 L64,26 L55,26 L49,68 L32,28 L15,68 L9,26 Z"/>
+          </g>
+          <text x="25" y="18" font-family="system-ui,-apple-system,sans-serif" font-weight="600" font-size="15" letter-spacing="-0.3">
+            <tspan class="logo-slate">What</tspan><tspan fill="#4f46e5">When</tspan>
+          </text>
+        </svg>
+      </a>
       <div class="nav-right">
         <a href="https://github.com/markmork/whatwhen" class="nav-link" target="_blank" rel="noopener noreferrer" aria-label="WhatWhen on GitHub">
           <!-- GitHub mark -->
@@ -79,7 +89,21 @@
     <!-- ── Hero ──────────────────────────────────────────────────────────── -->
     <section class="hero">
       <div class="container hero-inner">
-        <h1>Track when you last<br>did anything.</h1>
+        <h1 class="hero-logo-h1">
+          <svg class="hero-logo-svg" viewBox="190 35 300 185" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="hero-logo-title">
+            <title id="hero-logo-title">WhatWhen — track when you last did anything</title>
+            <g transform="translate(340,40)">
+              <g transform="translate(-39,0)">
+                <path class="logo-slate" d="M0,0 L15,60 L32,20 L49,60 L64,0 L55,0 L49,42 L32,2 L15,42 L9,0 Z"/>
+                <path fill="#4f46e5"    d="M0,26 L15,86 L32,46 L49,86 L64,26 L55,26 L49,68 L32,28 L15,68 L9,26 Z"/>
+              </g>
+              <text y="132" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-weight="500" font-size="36" letter-spacing="5">
+                <tspan class="logo-slate">What</tspan><tspan fill="#4f46e5">When</tspan>
+              </text>
+              <text x="0" y="160" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-weight="400" font-size="13" letter-spacing="2" class="logo-muted">track when you last did anything</text>
+            </g>
+          </svg>
+        </h1>
         <p class="hero-sub">
           A minimalist self-hosted app that turns recurring tasks into smart buttons
           — each one a live timer counting up from its last reset.
@@ -265,7 +289,17 @@ DATA_FILE=./whatwhen.json go run .</code></pre>
   <!-- ── Footer ────────────────────────────────────────────────────────────── -->
   <footer class="site-footer">
     <div class="container footer-inner">
-      <span class="footer-logo">What<span class="accent-text">When</span></span>
+      <span class="footer-logo">
+        <svg width="118" height="26" viewBox="0 0 118 26" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <g transform="translate(0,1) scale(0.279)">
+            <path class="logo-slate" d="M0,0 L15,60 L32,20 L49,60 L64,0 L55,0 L49,42 L32,2 L15,42 L9,0 Z"/>
+            <path fill="#4f46e5"    d="M0,26 L15,86 L32,46 L49,86 L64,26 L55,26 L49,68 L32,28 L15,68 L9,26 Z"/>
+          </g>
+          <text x="25" y="18" font-family="system-ui,-apple-system,sans-serif" font-weight="600" font-size="15" letter-spacing="-0.3">
+            <tspan class="logo-slate">What</tspan><tspan fill="#4f46e5">When</tspan>
+          </text>
+        </svg>
+      </span>
       <span class="footer-links">
         <a href="https://github.com/markmork/whatwhen" target="_blank" rel="noopener noreferrer">GitHub</a>
         <span class="footer-sep" aria-hidden="true">·</span>
